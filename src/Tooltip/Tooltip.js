@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import cx from 'classnames'
 import ReactDOM from 'react-dom'
 import Panel from '../Panel/Panel'
 import styles from './Tooltip.module.scss'
@@ -41,6 +42,7 @@ class Tooltip extends PureComponent {
   static propTypes = {
     on: PropTypes.oneOf(['click', 'hover']),
     position: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+    className: PropTypes.string,
     offsetX: PropTypes.number,
     offsetY: PropTypes.number,
     closeTimeout: PropTypes.number,
@@ -145,7 +147,13 @@ class Tooltip extends PureComponent {
 
   render () {
     const { shown } = this.state
-    const { on, trigger, children, forwardedRefPropName } = this.props
+    const {
+      on,
+      trigger,
+      children,
+      forwardedRefPropName,
+      className
+    } = this.props
     const triggerEvent = on === 'click' ? 'onClick' : 'onMouseEnter'
     const ref = typeof trigger.type !== 'string' ? forwardedRefPropName : 'ref'
 
@@ -160,7 +168,7 @@ class Tooltip extends PureComponent {
           <Panel
             forwardedRef={this.tooltipRef}
             style={shown ? this.getTooltipStyles() : undefined}
-            className={styles.tooltip}
+            className={cx(styles.tooltip, className)}
             onMouseEnter={this.openTooltip}
             onMouseLeave={this.startCloseTimer}
           >
